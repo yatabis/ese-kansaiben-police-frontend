@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
+import { RecorderNode } from '../utils/audio/RecorderNode';
+
+let streamNode: MediaStreamAudioSourceNode | undefined = undefined;
+let recorderNode: RecorderNode | undefined = undefined;
 
 const isRecording = ref(false);
 
@@ -13,11 +17,20 @@ const startRecording = async () => {
 
   console.log('start recording!');
   isRecording.value = true;
-  setTimeout(stopRecording, 2100);
+  const audioContext = new AudioContext();
+  await audioContext.audioWorklet.addModule('src/utils/audio/RecorderProcessor.ts');
+  const stream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
+  streamNode = audioContext.createMediaStreamSource(stream);
+  recorderNode = new RecorderNode(audioContext);
+  streamNode.connect(recorderNode).connect(audioContext.destination);
+  setTimeout(stopRecording, 2000);
 }
 
 const stopRecording = async () => {
   console.log('stop recording!');
+  recorderNode?.disconnect();
+  streamNode?.disconnect();
+  console.log('buffer', recorderNode?.getData());
   isRecording.value = false;
 }
 </script>
