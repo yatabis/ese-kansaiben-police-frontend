@@ -1,6 +1,13 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
 import Waveform from './components/Waveform.vue';
 import Record from './components/Record.vue';
+
+let audioData = ref<Float32Array | null>(null);
+
+const updateAudioData = (data: Float32Array) => {
+  audioData.value = data;
+}
 </script>
 
 <template>
@@ -8,8 +15,8 @@ import Record from './components/Record.vue';
   <div class="help-button">
     <span class="help-icon material-symbols-outlined">help</span>
   </div>
-  <Waveform></Waveform>
-  <Record></Record>
+  <Waveform :audioData="audioData"></Waveform>
+  <Record @record="updateAudioData"></Record>
 </template>
 
 <style scoped>

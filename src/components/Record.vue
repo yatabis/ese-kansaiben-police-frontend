@@ -2,8 +2,13 @@
 import { computed, ref } from 'vue';
 import { RecorderNode } from '../utils/audio/RecorderNode';
 
-let streamNode: MediaStreamAudioSourceNode | undefined = undefined;
-let recorderNode: RecorderNode | undefined = undefined;
+const emit = defineEmits<{
+  (e: 'record', audioData: Float32Array): void
+}>();
+
+let audioContext: AudioContext | undefined;
+let streamNode: MediaStreamAudioSourceNode | undefined;
+let recorderNode: RecorderNode | undefined;
 
 const isRecording = ref(false);
 
@@ -17,7 +22,7 @@ const startRecording = async () => {
 
   console.log('start recording!');
   isRecording.value = true;
-  const audioContext = new AudioContext();
+  audioContext = new AudioContext();
   await audioContext.audioWorklet.addModule('src/utils/audio/RecorderProcessor.ts');
   const stream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
   streamNode = audioContext.createMediaStreamSource(stream);
@@ -27,11 +32,14 @@ const startRecording = async () => {
 }
 
 const stopRecording = async () => {
-  console.log('stop recording!');
   recorderNode?.disconnect();
   streamNode?.disconnect();
-  console.log('buffer', recorderNode?.getData());
+  const data = recorderNode?.getData();
+  if (data) {
+    emit('record', data);
+  }
   isRecording.value = false;
+  console.log('stop recording!');
 }
 </script>
 
