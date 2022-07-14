@@ -23,7 +23,7 @@ const startRecording = async () => {
   console.log('start recording!');
   isRecording.value = true;
   audioContext = new AudioContext();
-  await audioContext.audioWorklet.addModule('src/utils/audio/RecorderProcessor.ts');
+  await audioContext.audioWorklet.addModule('src/utils/audio/RecorderProcessor.js');
   const stream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
   streamNode = audioContext.createMediaStreamSource(stream);
   recorderNode = new RecorderNode(audioContext);

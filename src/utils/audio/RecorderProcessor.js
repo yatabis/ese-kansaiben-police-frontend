@@ -1,5 +1,5 @@
 class RecorderProcessor extends AudioWorkletProcessor {
-  process(inputs: Array<Array<Float32Array | undefined>>): boolean {
+  process(inputs) {
     const data = inputs[0][0]
     if (!data) {
       return false;
