@@ -9,9 +9,9 @@ const audioData = ref<Float32Array | null>(null);
 
 const submitButtonColor = computed(() => isSubmitDisabled.value ? 'gray' : 'orange');
 
-const updateAudioData = (data: Float32Array) => {
+const updateAudioData = (data: Float32Array | null) => {
   audioData.value = data;
-  isSubmitDisabled.value = false;
+  isSubmitDisabled.value = !data;
 }
 
 const onSubmit = async () => {

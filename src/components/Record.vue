@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { RecorderNode } from '../utils/audio/RecorderNode';
 
 const emit = defineEmits<{
-  (e: 'record', audioData: Float32Array): void
+  (e: 'record', audioData: Float32Array | null): void
 }>();
 
 let audioContext: AudioContext | undefined;
@@ -22,6 +22,7 @@ const startRecording = async () => {
 
   console.log('start recording!');
   isRecording.value = true;
+  emit('record', null);
   audioContext = new AudioContext();
   await audioContext.audioWorklet.addModule('/RecorderProcessor.js');
   const stream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
