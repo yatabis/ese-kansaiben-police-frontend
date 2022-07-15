@@ -54,7 +54,7 @@ const stopRecording = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3vw auto;
+  margin: 5vw auto;
   width: 64px;
   height: 64px;
   border-width: 3px;

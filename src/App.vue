@@ -26,7 +26,7 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <h1 class="header-text"><span>あんたのそれ、</span><span>エセ関西弁やで</span></h1>
+  <h1 class="header-text">エセ関西弁警察</h1>
   <div class="help-button">
     <span class="help-icon material-symbols-outlined">help</span>
   </div>
@@ -38,16 +38,8 @@ const onSubmit = async () => {
 </template>
 
 <style scoped>
-#app {
-  font-family: 'Dela Gothic One', 'Noto Sans JP', sans-serif;
-}
-
 .header-text {
   text-align: center;
-}
-
-.header-text > span {
-  display: inline-block;
 }
 
 .help-button {

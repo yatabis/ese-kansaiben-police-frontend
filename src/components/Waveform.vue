@@ -19,7 +19,7 @@ const drawWaveform = (data: Float32Array | null) => {
   if (!data) {
     return;
   }
-  ctx.value.strokeStyle = 'black';
+  ctx.value.strokeStyle = 'deeppink';
   ctx.value.beginPath();
   ctx.value.moveTo(0, 128);
   data.forEach((value, i) => {
