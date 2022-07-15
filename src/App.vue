@@ -1,27 +1,36 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import axios from 'axios';
 import Waveform from './components/Waveform.vue';
 import Record from './components/Record.vue';
 
-let audioData = ref<Float32Array | null>(null);
+const isSubmitDisabled = ref(true);
+const audioData = ref<Float32Array | null>(null);
+
+const submitButtonColor = computed(() => isSubmitDisabled.value ? 'gray' : 'orange');
 
 const updateAudioData = (data: Float32Array) => {
   audioData.value = data;
+  isSubmitDisabled.value = false;
 }
 
 const onSubmit = async () => {
-  if (!audioData.value) {
+  if (isSubmitDisabled.value || !audioData.value) {
     return;
   }
+
+  isSubmitDisabled.value = true;
   
   const u8 = new Uint8Array(audioData.value.buffer);
   const data = btoa(u8.reduce((data, byte) => data + String.fromCharCode(byte), ''));
   console.log(data);
-  await axios.post(
+  axios.post(
     'http://localhost:5173/api/result',
     { data },
-  );
+  ).catch((e) => {
+    console.error(e);
+    isSubmitDisabled.value = false;
+  });
 }
 </script>
 
@@ -33,7 +42,7 @@ const onSubmit = async () => {
   <Waveform :audioData="audioData"></Waveform>
   <Record @record="updateAudioData"></Record>
   <form @submit.prevent="onSubmit">
-    <button type="submit" class="submit-button">判定する</button>
+    <button type="submit" class="submit-button" :style="{ backgroundColor: submitButtonColor }">判定する</button>
   </form>
 </template>
 
@@ -56,7 +65,6 @@ const onSubmit = async () => {
   width: 120px;
   height: 50px;
   margin: auto;
-  background-color: orange;
   border: none;
   border-radius: 10px;
   font-size: 24px;
