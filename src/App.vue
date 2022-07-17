@@ -18,6 +18,11 @@ const result = ref<ResultResponse | null>(null)
 
 const submitButtonColor = computed(() => isSubmitDisabled.value ? 'gray' : 'orange');
 
+const help = () => {
+  showHelp.value = true;
+  localStorage.setItem('help', 'true');
+}
+
 const updateAudioData = (data: Float32Array | null) => {
   isSubmitDisabled.value = !data;
   isError.value = false;
@@ -57,11 +62,11 @@ const onSubmit = async () => {
 
 <template>
   <h1 class="header-text">エセ関西弁警察</h1>
-  <div class="help-button" @click="showHelp = true">
+  <div class="help-button" @click="help">
     <span class="help-icon material-symbols-outlined">help</span>
   </div>
   <Waveform :audioData="audioData"></Waveform>
-  <Record @help="showHelp = true" @record="updateAudioData"></Record>
+  <Record @help="help" @record="updateAudioData"></Record>
   <form @submit.prevent="onSubmit">
     <button type="submit" class="submit-button" :style="{ backgroundColor: submitButtonColor }">判定する</button>
   </form>

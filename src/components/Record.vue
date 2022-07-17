@@ -17,11 +17,7 @@ const color = computed(() => isRecording.value ? 'gray' : 'red');
 
 const checkHelp = () => {
   const help = localStorage.getItem('help');
-  if (!help || help !== 'true') {
-    localStorage.setItem('help', 'true');
-    return true;
-  }
-  return false;
+  return !help || help !== 'true';
 }
 
 const startRecording = async () => {
