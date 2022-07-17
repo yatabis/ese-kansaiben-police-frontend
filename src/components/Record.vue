@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { RecorderNode } from '../utils/audio/RecorderNode';
+import { RecorderNode } from '~/utils/audio/RecorderNode';
 
 const emit = defineEmits<{
   (e: 'record', audioData: Float32Array | null): void

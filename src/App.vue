@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import axios from 'axios';
-import Waveform from './components/Waveform.vue';
-import Record from './components/Record.vue';
+import axios, { AxiosResponse } from 'axios';
+import Waveform from '~/components/Waveform.vue';
+import Record from '~/components/Record.vue';
 
 const isSubmitDisabled = ref(true);
 const audioData = ref<Float32Array | null>(null);
