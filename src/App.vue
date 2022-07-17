@@ -29,7 +29,7 @@ const onSubmit = async () => {
   const data = btoa(u8.reduce((data, byte) => data + String.fromCharCode(byte), ''));
   console.log(data);
   axios.post(
-    import.meta.env.VITE_API_ENDPOINT,
+    `${import.meta.env.VITE_API_ENDPOINT}/api/mock/predict`,
     { data },
   )
   .then((response: AxiosResponse<ResultResponse>) => {
