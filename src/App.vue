@@ -25,9 +25,13 @@ const onSubmit = async () => {
   const data = btoa(u8.reduce((data, byte) => data + String.fromCharCode(byte), ''));
   console.log(data);
   axios.post(
-    'http://localhost:5173/api/result',
+    import.meta.env.VITE_API_ENDPOINT,
     { data },
-  ).catch((e) => {
+  )
+  .then((response) => {
+    console.log(response.data);
+  })
+  .catch((e) => {
     console.error(e);
     isSubmitDisabled.value = false;
   });
