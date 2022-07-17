@@ -61,7 +61,7 @@ const onSubmit = async () => {
     <span class="help-icon material-symbols-outlined">help</span>
   </div>
   <Waveform :audioData="audioData"></Waveform>
-  <Record @record="updateAudioData"></Record>
+  <Record @help="showHelp = true" @record="updateAudioData"></Record>
   <form @submit.prevent="onSubmit">
     <button type="submit" class="submit-button" :style="{ backgroundColor: submitButtonColor }">判定する</button>
   </form>

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { RecorderNode } from '~/utils/audio/RecorderNode';
 
 const emit = defineEmits<{
+  (e: 'help'): void
   (e: 'record', audioData: Float32Array | null): void
 }>();
 
@@ -14,9 +15,23 @@ const isRecording = ref(false);
 
 const color = computed(() => isRecording.value ? 'gray' : 'red');
 
+const checkHelp = () => {
+  const help = localStorage.getItem('help');
+  if (!help || help !== 'true') {
+    localStorage.setItem('help', 'true');
+    return true;
+  }
+  return false;
+}
+
 const startRecording = async () => {
   if (isRecording.value) {
     console.warn('now recording!');
+    return;
+  }
+
+  if (checkHelp()) {
+    emit('help');
     return;
   }
 
