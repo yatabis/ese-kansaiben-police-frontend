@@ -3,15 +3,19 @@ import { computed, ref } from 'vue';
 import axios, { AxiosResponse } from 'axios';
 import Waveform from '~/components/Waveform.vue';
 import Record from '~/components/Record.vue';
+import Result from '~/components/Result.vue';
+import { ResultResponse } from '~/interfaces/result.d';
 
 const isSubmitDisabled = ref(true);
 const audioData = ref<Float32Array | null>(null);
+const result = ref<ResultResponse | null>(null)
 
 const submitButtonColor = computed(() => isSubmitDisabled.value ? 'gray' : 'orange');
 
 const updateAudioData = (data: Float32Array | null) => {
-  audioData.value = data;
   isSubmitDisabled.value = !data;
+  audioData.value = data;
+  result.value = null;
 }
 
 const onSubmit = async () => {
@@ -28,8 +32,8 @@ const onSubmit = async () => {
     import.meta.env.VITE_API_ENDPOINT,
     { data },
   )
-  .then((response) => {
-    console.log(response.data);
+  .then((response: AxiosResponse<ResultResponse>) => {
+    result.value = response.data;
   })
   .catch((e) => {
     console.error(e);
@@ -48,6 +52,7 @@ const onSubmit = async () => {
   <form @submit.prevent="onSubmit">
     <button type="submit" class="submit-button" :style="{ backgroundColor: submitButtonColor }">判定する</button>
   </form>
+  <Result :result="result"></Result>
 </template>
 
 <style scoped>
