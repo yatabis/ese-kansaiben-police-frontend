@@ -30,9 +30,9 @@ const resultDescription = computed(() => {
   </p>
   <div class="result-table">
     <span>関西弁度</span>
-    <span>{{ result.kansai }}%</span>
+    <span>{{ result.kansai.toFixed(1) }}%</span>
     <span>エセ関西弁度</span>
-    <span>{{ result.ese }}%</span>
+    <span>{{ result.ese.toFixed(1) }}%</span>
   </div>
   <p>{{ resultDescription }}</p>
 </div>
