@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { RESULT_TYPE, ResultResponse } from '~/interfaces/result.d';
 
 const props = defineProps<{
-  result: ResultResponse | null,
+  result: ResultResponse,
 }>();
 
 const resultText = computed(() => {
@@ -22,7 +22,7 @@ const resultDescription = computed(() => {
 </script>
 
 <template>
-<div v-if="result">
+<div>
   <h3>あなたの「なんでやねん」は...</h3>
   <p class="result">
     <span class="result-title">{{ resultText }}</span>

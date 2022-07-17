@@ -3,10 +3,12 @@ import { computed, ref } from 'vue';
 import axios, { AxiosResponse } from 'axios';
 import Waveform from '~/components/Waveform.vue';
 import Record from '~/components/Record.vue';
+import Loading from '~/components/Loading.vue';
 import Result from '~/components/Result.vue';
 import { ResultResponse } from '~/interfaces/result.d';
 
 const isSubmitDisabled = ref(true);
+const isLoading = ref(false);
 const audioData = ref<Float32Array | null>(null);
 const result = ref<ResultResponse | null>(null)
 
@@ -24,6 +26,7 @@ const onSubmit = async () => {
   }
 
   isSubmitDisabled.value = true;
+  isLoading.value = true;
   
   const u8 = new Uint8Array(audioData.value.buffer);
   const data = btoa(u8.reduce((data, byte) => data + String.fromCharCode(byte), ''));
@@ -38,6 +41,9 @@ const onSubmit = async () => {
   .catch((e) => {
     console.error(e);
     isSubmitDisabled.value = false;
+  })
+  .finally(() => {
+    isLoading.value = false;
   });
 }
 </script>
@@ -52,7 +58,8 @@ const onSubmit = async () => {
   <form @submit.prevent="onSubmit">
     <button type="submit" class="submit-button" :style="{ backgroundColor: submitButtonColor }">判定する</button>
   </form>
-  <Result :result="result"></Result>
+  <Loading v-if="isLoading"></Loading>
+  <Result v-else-if="result" :result="result"></Result>
 </template>
 
 <style scoped>
