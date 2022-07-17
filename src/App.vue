@@ -6,8 +6,10 @@ import Record from '~/components/Record.vue';
 import Loading from '~/components/Loading.vue';
 import Error from '~/components/Error.vue';
 import Result from '~/components/Result.vue';
+import HelpModal from './components/HelpModal.vue';
 import { ResultResponse } from '~/interfaces/result.d';
 
+const showHelp = ref(false);
 const isSubmitDisabled = ref(true);
 const isLoading = ref(false);
 const isError = ref(false);
@@ -55,7 +57,7 @@ const onSubmit = async () => {
 
 <template>
   <h1 class="header-text">エセ関西弁警察</h1>
-  <div class="help-button">
+  <div class="help-button" @click="showHelp = true">
     <span class="help-icon material-symbols-outlined">help</span>
   </div>
   <Waveform :audioData="audioData"></Waveform>
@@ -66,6 +68,7 @@ const onSubmit = async () => {
   <Loading v-if="isLoading"></Loading>
   <Error v-else-if="isError"></Error>
   <Result v-else-if="result" :result="result"></Result>
+  <HelpModal v-if="showHelp" @close="showHelp = false"></HelpModal>
 </template>
 
 <style scoped>
