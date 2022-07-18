@@ -13,7 +13,6 @@ const drawWaveform = (data: Float32Array | null) => {
   if (!ctx.value) {
     return;
   }
-  console.log('draw');
   ctx.value.fillStyle = 'skyblue';
   ctx.value.fillRect(0, 0, 882, 256);
   if (!data) {
@@ -43,5 +42,6 @@ watchEffect(() => {
   width: 90vw;
   aspect-ratio: 2;
   margin: auto;
+  border-radius: 10px;
 }
 </style>

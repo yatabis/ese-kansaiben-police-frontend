@@ -22,7 +22,6 @@ export class RecorderNode extends AudioWorkletNode {
 
   getData(): Float32Array {
     const data = this.getDataRaw();
-    console.log(data);
     const start = data.findIndex((value) => Math.abs(value) >= 0.2);
     return data.slice(start);
   }
