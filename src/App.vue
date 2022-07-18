@@ -40,10 +40,10 @@ const onSubmit = async () => {
   isError.value = false;
   
   const u8 = new Uint8Array(audioData.value.buffer);
-  const data = btoa(u8.reduce((data, byte) => data + String.fromCharCode(byte), ''));
+  const data = window.btoa(u8.reduce((data, byte) => data + String.fromCharCode(byte), ''));
   console.log(data);
   axios.post(
-    `${import.meta.env.VITE_API_ENDPOINT}/api/mock/predict`,
+    `${import.meta.env.VITE_API_ENDPOINT}/api/predict`,
     { data },
   )
   .then((response: AxiosResponse<ResultResponse>) => {
@@ -95,8 +95,10 @@ const onSubmit = async () => {
   width: 120px;
   height: 50px;
   margin: auto;
+  padding: 0;
   border: none;
   border-radius: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
   font-size: 24px;
 }
 </style>
