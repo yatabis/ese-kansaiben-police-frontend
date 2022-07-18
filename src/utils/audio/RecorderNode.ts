@@ -22,7 +22,7 @@ export class RecorderNode extends AudioWorkletNode {
 
   getData(): Float32Array | null {
     const data = this.getDataRaw();
-    const start = data.findIndex((value) => Math.abs(value) >= 0.2);
+    const start = data.findIndex((value) => Math.abs(value) >= 0.1);
     if (start === -1) {
       return null;
     }
