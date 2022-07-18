@@ -2,7 +2,7 @@
 import { computed, ref, watchEffect } from 'vue';
 
 const props = defineProps<{
-  audioData: Float32Array | null
+  waveform: Float32Array | null
 }>();
 
 const canvas = ref<HTMLCanvasElement | null>(null);
@@ -28,12 +28,12 @@ const drawWaveform = (data: Float32Array | null) => {
 }
 
 watchEffect(() => {
-  drawWaveform(props.audioData);
+  drawWaveform(props.waveform);
 })
 </script>
 
 <template>
-  <canvas width="882" height="256" class="waveform" ref="canvas">{{ audioData?.length }}</canvas>
+  <canvas width="882" height="256" class="waveform" ref="canvas">{{ waveform?.length }}</canvas>
 </template>
 
 <style scoped>

@@ -13,6 +13,7 @@ const showHelp = ref(false);
 const isSubmitDisabled = ref(true);
 const isLoading = ref(false);
 const isError = ref(false);
+const waveform = ref<Float32Array | null>(null);
 const audioData = ref<Float32Array | null>(null);
 const result = ref<ResultResponse | null>(null)
 
@@ -21,6 +22,10 @@ const submitButtonColor = computed(() => isSubmitDisabled.value ? 'gray' : 'oran
 const help = () => {
   showHelp.value = true;
   localStorage.setItem('help', 'true');
+}
+
+const updateWaveform = (data: Float32Array | null) => {
+  waveform.value = data;
 }
 
 const updateAudioData = (data: Float32Array | null) => {
@@ -64,8 +69,8 @@ const onSubmit = async () => {
   <div class="help-button" @click="help">
     <span class="help-icon material-symbols-outlined">help</span>
   </div>
-  <Waveform :audioData="audioData"></Waveform>
-  <Record @help="help" @record="updateAudioData"></Record>
+  <Waveform :waveform="waveform"></Waveform>
+  <Record @help="help" @recording="updateWaveform" @recorded="updateAudioData"></Record>
   <form @submit.prevent="onSubmit">
     <button type="submit" class="submit-button" :style="{ backgroundColor: submitButtonColor }">判定する</button>
   </form>

@@ -4,12 +4,14 @@ import { RecorderNode } from '~/utils/audio/RecorderNode';
 
 const emit = defineEmits<{
   (e: 'help'): void
-  (e: 'record', audioData: Float32Array | null): void
+  (e: 'recording', audioData: Float32Array | null): void
+  (e: 'recorded', audioData: Float32Array | null): void
 }>();
 
 let audioContext: AudioContext | undefined;
 let streamNode: MediaStreamAudioSourceNode | undefined;
 let recorderNode: RecorderNode | undefined;
+let timer: NodeJS.Timer | null;
 
 const isRecording = ref(false);
 
@@ -33,7 +35,7 @@ const startRecording = async () => {
 
   console.log('start recording!');
   isRecording.value = true;
-  emit('record', null);
+  emit('recorded', null);
   audioContext = new AudioContext({ sampleRate: 48000 });
   await audioContext.audioWorklet.addModule('/RecorderProcessor.js');
   const stream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
@@ -41,14 +43,18 @@ const startRecording = async () => {
   recorderNode = new RecorderNode(audioContext);
   streamNode.connect(recorderNode).connect(audioContext.destination);
   setTimeout(stopRecording, 2000);
+  timer = setInterval(() => emit('recording', recorderNode?.getDataRaw() || null), 10);
 }
 
 const stopRecording = async () => {
   recorderNode?.disconnect();
   streamNode?.disconnect();
+  if (timer) {
+    clearInterval(timer);
+  }
   const data = recorderNode?.getData();
   if (data) {
-    emit('record', data);
+    emit('recorded', data);
   }
   isRecording.value = false;
   console.log('stop recording!');
