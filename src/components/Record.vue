@@ -34,7 +34,7 @@ const startRecording = async () => {
   console.log('start recording!');
   isRecording.value = true;
   emit('record', null);
-  audioContext = new AudioContext();
+  audioContext = new AudioContext({ sampleRate: 48000 });
   await audioContext.audioWorklet.addModule('/RecorderProcessor.js');
   const stream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
   streamNode = audioContext.createMediaStreamSource(stream);

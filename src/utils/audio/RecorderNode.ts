@@ -7,7 +7,7 @@ export class RecorderNode extends AudioWorkletNode {
     this.port.onmessage = (e: MessageEvent<Float32Array>) => this.buffers.push(e.data);
   }
 
-  getData(): Float32Array {
+  getDataRaw(): Float32Array {
     const dataLength = this.buffers.reduce((len, buf) => len + buf.length, 0);
     const data = new Float32Array(dataLength);
     let index = 0;
@@ -18,5 +18,12 @@ export class RecorderNode extends AudioWorkletNode {
       })
     })
     return data;
+  }
+
+  getData(): Float32Array {
+    const data = this.getDataRaw();
+    console.log(data);
+    const start = data.findIndex((value) => Math.abs(value) >= 0.2);
+    return data.slice(start);
   }
 }
