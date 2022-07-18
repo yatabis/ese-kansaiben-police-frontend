@@ -14,7 +14,7 @@
   </p>
   <p>
     <span class="line">録音ボタンをタップすると</span>
-    <span class="line">3秒間の音声を</span>
+    <span class="line">2秒間の音声を</span>
     <span class="line">録音しますので</span>
     <span class="line">「なんでやねん」と</span>
     <span class="line">発声してください</span>

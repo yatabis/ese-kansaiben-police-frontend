@@ -16,7 +16,15 @@ const resultText = computed(() => {
 })
 
 const resultDescription = computed(() => {
-  return 'あなたはそこそこネイティブな関西弁の持ち主です。'
+  if (props.result.kansai > 90) {
+    return 'あなたはネイティブな関西弁の持ち主です！<br>　ごっつええ響きやで！'
+  } else if (props.result.kansai > 60) {
+    return 'あなたはそこそこネイティブな関西弁の持ち主です。<br>　ええ感じやな！'
+  } else if (props.result.kansai > 40) {
+    return 'あんたほんま関西人か？あやしいな🤔'
+  } else {
+    return 'エセ関西弁警察や👮<br>　あんたのそれ、エセ関西弁やで！'
+  }
 })
 
 </script>
@@ -34,7 +42,12 @@ const resultDescription = computed(() => {
     <span>エセ関西弁度</span>
     <span>{{ result.ese.toFixed(1) }}%</span>
   </div>
-  <p>{{ resultDescription }}</p>
+  <p>
+    <span>エセ関西弁警察</span><br>
+    <span>「</span>
+    <span v-html="resultDescription"></span>
+    <span>」</span>
+  </p>
 </div>
 </template>
 
