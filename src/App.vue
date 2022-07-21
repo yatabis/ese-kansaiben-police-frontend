@@ -47,7 +47,7 @@ const onSubmit = async () => {
   const u8 = new Uint8Array(audioData.value.buffer);
   const data = window.btoa(u8.reduce((data, byte) => data + String.fromCharCode(byte), ''));
   axios.post(
-    `${import.meta.env.VITE_API_ENDPOINT}/api/predict`,
+    `${import.meta.env.VITE_API_ENDPOINT}/check_ese`,
     { data },
   )
   .then((response: AxiosResponse<ResultResponse>) => {
